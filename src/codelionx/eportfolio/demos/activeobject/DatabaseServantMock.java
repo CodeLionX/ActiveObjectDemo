@@ -4,14 +4,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class HistoryQueryEngineMock extends AbstractHistoryQueryEngine {
+public class DatabaseServantMock extends DatabaseServant {
     /**
      * Simulated query duration in milliseconds
      */
     private final long queryDurationMillis;
     private final Map<String, String[]> archive = new ConcurrentHashMap<>();
 
-    public HistoryQueryEngineMock(List<String[]> seedData, long queryDurationMillis) {
+    public DatabaseServantMock(List<String[]> seedData, long queryDurationMillis) {
         this.queryDurationMillis = queryDurationMillis;
         for (String[] data : seedData) {
             put(data[0] + "##" + data[1], data);
@@ -31,8 +31,8 @@ public class HistoryQueryEngineMock extends AbstractHistoryQueryEngine {
     }
 
     @Override
-    public String[] queryHistoryData(String firstName, String lastName) {
-        System.out.println(this.getClass().getSimpleName() + ".queryHistoryData('" + firstName + "', '" + lastName + "') called.");
+    public String[] queryData(String firstName, String lastName) {
+        System.out.println(this.getClass().getSimpleName() + ".queryData('" + firstName + "', '" + lastName + "') called.");
         StringBuilder sbKey = new StringBuilder();
         if (firstName != null) {
             sbKey.append(firstName);
@@ -50,7 +50,7 @@ public class HistoryQueryEngineMock extends AbstractHistoryQueryEngine {
             Thread.sleep(queryDurationMillis);
         }
         catch (InterruptedException ex) {
-            System.out.println(this.getClass().getSimpleName() + ".queryHistoryData('" + firstName + "', '" + lastName
+            System.out.println(this.getClass().getSimpleName() + ".queryData('" + firstName + "', '" + lastName
                     +  "') was interrupted!");
         }
         return result;

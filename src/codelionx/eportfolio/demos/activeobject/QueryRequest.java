@@ -14,13 +14,13 @@ public class QueryRequest extends FutureTask<String[]> {
      * @param paramFirstName person's first name to query for
      * @param paramLastName person's last name to query for
      */
-    public QueryRequest(final AbstractHistoryQueryEngine engine, final String paramFirstName,
+    public QueryRequest(final DatabaseServant engine, final String paramFirstName,
             final String paramLastName) {
         super(new Callable<String[]>() {
 
             @Override
             public String[] call() throws Exception {
-                return engine.queryHistoryData(paramFirstName, paramLastName);
+                return engine.queryData(paramFirstName, paramLastName);
             }
 
         });

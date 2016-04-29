@@ -1,7 +1,12 @@
 package codelionx.eportfolio.demos.activeobject;
 
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
-public class QueryRequestFuture {
+
+public class QueryRequestFuture implements Future<String[]> {
 
     private final QueryRequest queryRequest;
 
@@ -10,15 +15,24 @@ public class QueryRequestFuture {
      * @param queryRequest objectified request which has to be observed
      */
     public QueryRequestFuture(QueryRequest queryRequest) {
+    	super();
         this.queryRequest = queryRequest;
     }
 
-    /**
-     * Returns the result if - and only if computation is done, otherwise null (non-blocking)
-     * @return result or null (if not completed or cancelled)
-     */
-    public String[] getResult() {
-        System.out.println(this.getClass().getSimpleName() + ".getResult() called");
+    public boolean cancel() {
+        System.out.println(this.getClass().getSimpleName() + ".cancel() called");
+        return queryRequest.cancel(true);
+    }
+
+	@Override
+	public boolean cancel(boolean mayInterruptIfRunning) {
+		System.out.println(this.getClass().getSimpleName() + ".cancel(" + mayInterruptIfRunning + ") called");
+		return queryRequest.cancel(mayInterruptIfRunning);
+	}
+
+	@Override
+	public String[] get() throws InterruptedException, ExecutionException {
+		System.out.println(this.getClass().getSimpleName() + ".getResult() called");
         try {
             if (queryRequest.isDone() && !queryRequest.isCancelled()) {
                 return queryRequest.get();
@@ -28,34 +42,37 @@ public class QueryRequestFuture {
             System.err.println("Failed to get result!");
         }
         return null;
-    }
+	}
 
-    /**
-     * Cancels the query
-     */
-    public void cancelQuery() {
-        System.out.println(this.getClass().getSimpleName() + ".cancelQuery() called");
-        queryRequest.cancel(true);
-    }
+	@Override
+	public String[] get(long timeout, TimeUnit unit)
+			throws InterruptedException, ExecutionException, TimeoutException {
+		if(unit != TimeUnit.MILLISECONDS) {
+			throw new IllegalArgumentException("only Milliseconds are allowed!");
+		}
+		long startTime = System.currentTimeMillis();
+        while (!isDone()) {
+            if (System.currentTimeMillis() >= (startTime + timeout)) {
+                cancel();
+                break;
+            }
+            Thread.sleep(500);
+        }
+        return get();
+	}
 
-    /**
-     * Determines whether the query is cancelled
-     * @return true if this query is cancelled
-     */
-    public boolean isQueryCancelled() {
-        boolean res = queryRequest.isCancelled();
+	@Override
+	public boolean isCancelled() {
+		boolean res = queryRequest.isCancelled();
         System.out.println(this.getClass().getSimpleName() + ".isQueryCancelled() called - " + res);
         return res;
-    }
+	}
 
-    /**
-     * Determines whether the query has finished
-     * @return true if this query is done
-     */
-    public boolean isQueryDone() {
-        boolean res = queryRequest.isDone();
+	@Override
+	public boolean isDone() {
+		boolean res = queryRequest.isDone();
         System.out.println(this.getClass().getSimpleName() + ".isQueryDone() called - " + res);
         return res;
-    }
+	}
 
 }

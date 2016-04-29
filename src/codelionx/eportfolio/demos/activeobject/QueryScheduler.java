@@ -3,7 +3,7 @@ package codelionx.eportfolio.demos.activeobject;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class HistoryQueryScheduler {
+public class QueryScheduler {
 
     private final Executor executor;
 
@@ -11,7 +11,7 @@ public class HistoryQueryScheduler {
      * Creates new scheduler allowing the specified amount of parallel executions
      * @param maxParallelWorkers number of calls that shall execute in parallel
      */
-    public HistoryQueryScheduler(int maxParallelWorkers) {
+    public QueryScheduler(int maxParallelWorkers) {
         System.out.println(this.getClass().getSimpleName() + " created - working on queue with " + maxParallelWorkers
                 + " worker threads in parallel.");
         // the chosen executor internally manages a queue and ensures that

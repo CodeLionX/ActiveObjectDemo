@@ -10,19 +10,19 @@ public class DatabaseProxy {
 	/**
      * underlying database/servant (injected by constructor)
      */
-    private final AbstractHistoryQueryEngine engine;
+    private final DatabaseServant engine;
 
     /**
      * Scheduler used to schedule queries to be executed (injected by constructor)
      */
-    private final HistoryQueryScheduler scheduler;
+    private final QueryScheduler scheduler;
 
     /**
      * Creates a new query leveraging the given engine
      * @param engine engine to be used for querying
      * @param scheduler used to schedule queries to be executed
      */
-    public DatabaseProxy(AbstractHistoryQueryEngine engine, HistoryQueryScheduler scheduler) {
+    public DatabaseProxy(DatabaseServant engine, QueryScheduler scheduler) {
         this.engine = engine;
         this.scheduler = scheduler;
     }
@@ -35,7 +35,7 @@ public class DatabaseProxy {
      * @return Future for communication and result retrieval
      */
     public QueryRequestFuture queryData(String firstName, String lastName) {
-        System.out.println(this.getClass().getSimpleName() + ".queryHistoryData('" + firstName + "', '" + lastName + "') called");
+        System.out.println(this.getClass().getSimpleName() + ".queryData('" + firstName + "', '" + lastName + "') called");
         QueryRequest objectifiedRequest = new QueryRequest(engine, firstName, lastName);
         QueryRequestFuture future = new QueryRequestFuture(objectifiedRequest);
         scheduler.schedule(objectifiedRequest);

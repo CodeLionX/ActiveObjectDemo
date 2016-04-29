@@ -6,7 +6,7 @@ package codelionx.eportfolio.demos.activeobject;
  * (provider contract) shall be that only a maximum number of parallel requests are allowed to reduce load on the
  * assumed backend system.
  */
-public abstract class AbstractHistoryQueryEngine {
+public abstract class DatabaseServant {
 
     /**
      * Perform a synchronous query, which may take some time.
@@ -15,6 +15,6 @@ public abstract class AbstractHistoryQueryEngine {
      * @return data list of (String[4]=[firstName, lastName, birthday, data]) according to the query or empty list if
      *         not found
      */
-    public abstract String[] queryHistoryData(String firstName, String lastName);
+    public abstract String[] queryData(String firstName, String lastName);
 
 }

@@ -10,10 +10,10 @@ import java.util.List;
 
 import org.junit.Test;
 
-import codelionx.eportfolio.demos.activeobject.AbstractHistoryQueryEngine;
+import codelionx.eportfolio.demos.activeobject.DatabaseServant;
 import codelionx.eportfolio.demos.activeobject.DatabaseProxy;
-import codelionx.eportfolio.demos.activeobject.HistoryQueryEngineMock;
-import codelionx.eportfolio.demos.activeobject.HistoryQueryScheduler;
+import codelionx.eportfolio.demos.activeobject.DatabaseServantMock;
+import codelionx.eportfolio.demos.activeobject.QueryScheduler;
 import codelionx.eportfolio.demos.activeobject.QueryRequestFuture;
 
 /**
@@ -48,8 +48,8 @@ public class ActiveObjectTest {
         System.out.println("Test Active Object ...");
         long startTimeNanos = System.nanoTime();
 
-        AbstractHistoryQueryEngine engine = new HistoryQueryEngineMock(MOCK_HISTORY_DATA, CALL_DURATION);
-        HistoryQueryScheduler scheduler = new HistoryQueryScheduler(NUMBER_OF_WORKERS);
+        DatabaseServant engine = new DatabaseServantMock(MOCK_HISTORY_DATA, CALL_DURATION);
+        QueryScheduler scheduler = new QueryScheduler(NUMBER_OF_WORKERS);
 
         DatabaseProxy database = new DatabaseProxy(engine, scheduler);
 
@@ -58,13 +58,13 @@ public class ActiveObjectTest {
         QueryRequestFuture future2 = database.queryData("Lisa", "Miller");
         QueryRequestFuture future3 = database.queryData("Mary", "Gin-Tonic");
 
-        while (!future1.isQueryDone() || !future2.isQueryDone() || !future3.isQueryDone()) {
+        while (!future1.isDone() || !future2.isDone() || !future3.isDone()) {
             Thread.sleep(2000);
         }
 
-        String[] result1 = future1.getResult();
-        String[] result2 = future2.getResult();
-        String[] result3 = future3.getResult();
+        String[] result1 = future1.get();
+        String[] result2 = future2.get();
+        String[] result3 = future3.get();
 
         assertNotNull(result1);
         assertNotNull(result2);
@@ -84,8 +84,8 @@ public class ActiveObjectTest {
         System.out.println("Test Active Object cancel ...");
         long startTimeNanos = System.nanoTime();
 
-        AbstractHistoryQueryEngine engine = new HistoryQueryEngineMock(MOCK_HISTORY_DATA, 10000); // 10 seconds
-        HistoryQueryScheduler scheduler = new HistoryQueryScheduler(1); // one call in parallel
+        DatabaseServant engine = new DatabaseServantMock(MOCK_HISTORY_DATA, 10000); // 10 seconds
+        QueryScheduler scheduler = new QueryScheduler(1); // one call in parallel
 
         DatabaseProxy queryComponent = new DatabaseProxy(engine, scheduler);
 
@@ -93,17 +93,17 @@ public class ActiveObjectTest {
         QueryRequestFuture future1 = queryComponent.queryData("Jack", "Miller");
 
         int waitCount = 0;
-        while (!future1.isQueryDone()) {
+        while (!future1.isDone()) {
             if (waitCount >= 3) {
-                future1.cancelQuery();
+                future1.cancel();
                 break;
             }
             Thread.sleep(2000);
             waitCount++;
         }
 
-        assertTrue(future1.isQueryCancelled());
-        assertNull(future1.getResult());
+        assertTrue(future1.isCancelled());
+        assertNull(future1.get());
 
         System.out.println("Test Active Object cancel successful! Elapsed time: " + (System.nanoTime() - startTimeNanos) + " s");
 
