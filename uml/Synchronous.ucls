@@ -5,7 +5,7 @@
     project="ActiveObjectDemo" 
     file="/ActiveObjectDemo/src/codelionx/eportfolio/demos/activeobject/DatabaseServantMock.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="376" y="214"/>    
+    <position height="-1" width="-1" x="337" y="225"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
@@ -16,7 +16,7 @@
     project="ActiveObjectDemo" 
     file="/ActiveObjectDemo/src/codelionx/eportfolio/demos/activeobject/test/TestWithoutAO.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="110" y="121"/>    
+    <position height="-1" width="-1" x="104" y="58"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
@@ -26,7 +26,7 @@
   <class id="3" language="java" name="codelionx.eportfolio.demos.activeobject.DatabaseServant" 
     project="ActiveObjectDemo" file="/ActiveObjectDemo/src/codelionx/eportfolio/demos/activeobject/DatabaseServant.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="376" y="49"/>    
+    <position height="-1" width="-1" x="337" y="60"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
