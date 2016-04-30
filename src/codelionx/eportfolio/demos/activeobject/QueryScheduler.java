@@ -24,7 +24,7 @@ public class QueryScheduler {
      * schedules the specified task and returns immediately
      * @param task some task to be executed in the future
      */
-    public void schedule(QueryRequest task) {
+    public void schedule(Runnable task) {
         System.out.println(this.getClass().getSimpleName() + ".schedule() called.");
         System.out.println("enqueuing objectified request: " + task.toString());
         executor.execute(task);

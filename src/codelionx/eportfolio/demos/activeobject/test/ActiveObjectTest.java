@@ -74,7 +74,7 @@ public class ActiveObjectTest {
         assertEquals("Bad bananas punished by old trees.", result2[2]);
         assertEquals("Blue apes on skyscrapers.", result3[2]);
 
-        System.out.println("Test Active Object successful! Elapsed time: " + (System.nanoTime() - startTimeNanos) + " s");
+        System.out.println("Test Active Object successful! Elapsed time: " + (System.nanoTime() - startTimeNanos) + " ns");
 
     }
 
@@ -105,7 +105,7 @@ public class ActiveObjectTest {
         assertTrue(future1.isCancelled());
         assertNull(future1.get());
 
-        System.out.println("Test Active Object cancel successful! Elapsed time: " + (System.nanoTime() - startTimeNanos) + " s");
+        System.out.println("Test Active Object cancel successful! Elapsed time: " + (System.nanoTime() - startTimeNanos) + " ns");
 
     }
 

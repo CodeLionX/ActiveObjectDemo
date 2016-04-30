@@ -10,17 +10,17 @@ public class QueryRequest extends FutureTask<String[]> {
 
     /**
      * Creates an objectified request
-     * @param engine query engine to be used
+     * @param db query engine to be used
      * @param paramFirstName person's first name to query for
      * @param paramLastName person's last name to query for
      */
-    public QueryRequest(final DatabaseServant engine, final String paramFirstName,
+    public QueryRequest(final DatabaseServant db, final String paramFirstName,
             final String paramLastName) {
         super(new Callable<String[]>() {
 
             @Override
             public String[] call() throws Exception {
-                return engine.queryData(paramFirstName, paramLastName);
+                return db.queryData(paramFirstName, paramLastName);
             }
 
         });
