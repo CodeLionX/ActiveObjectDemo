@@ -34,11 +34,9 @@ public class QueryRequestFuture implements Future<String[]> {
 	public String[] get() throws InterruptedException, ExecutionException {
 		System.out.println(this.getClass().getSimpleName() + ".getResult() called");
         try {
-            if (queryRequest.isDone() && !queryRequest.isCancelled()) {
+            if (queryRequest.isDone() && !queryRequest.isCancelled())
                 return queryRequest.get();
-            }
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             System.err.println("Failed to get result!");
         }
         return null;
