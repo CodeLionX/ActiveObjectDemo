@@ -48,20 +48,19 @@ public class ActiveObjectTest {
         System.out.println("Test Active Object ...");
         long startTimeNanos = System.nanoTime();
 
-        DatabaseServant engine = new DatabaseServantMock(MOCK_HISTORY_DATA, CALL_DURATION);
+        DatabaseServant database = new DatabaseServantMock(MOCK_HISTORY_DATA, CALL_DURATION);
         QueryScheduler scheduler = new QueryScheduler(NUMBER_OF_WORKERS);
 
-        DatabaseProxy database = new DatabaseProxy(engine, scheduler);
+        DatabaseProxy databaseProxy = new DatabaseProxy(database, scheduler);
 
         // now let's query
-        QueryRequestFuture future1 = database.queryData("Jack", "Miller");
-        QueryRequestFuture future2 = database.queryData("Lisa", "Miller");
-        QueryRequestFuture future3 = database.queryData("Mary", "Gin-Tonic");
+        QueryRequestFuture future1 = databaseProxy.queryData("Jack", "Miller");
+        QueryRequestFuture future2 = databaseProxy.queryData("Lisa", "Miller");
+        QueryRequestFuture future3 = databaseProxy.queryData("Mary", "Gin-Tonic");
 
         while (!future1.isDone() || !future2.isDone() || !future3.isDone()) {
             Thread.sleep(2000);
         }
-
         String[] result1 = future1.get();
         String[] result2 = future2.get();
         String[] result3 = future3.get();
